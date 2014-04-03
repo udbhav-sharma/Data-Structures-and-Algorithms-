@@ -24,8 +24,16 @@ void print_sol()
 	for(i=0;i<9;i++)
 	{
 		for(j=0;j<9;j++)
-			cout<<Sudoku[i][j]<<"\t";
+		{
+			cout<<Sudoku[i][j];
+			if((j+1)%3==0)
+				cout<<"\t";
+			else
+				cout<<" ";
+		}
 		cout<<endl;
+		if((i+1)%3==0)
+			cout<<endl;
 	}	
 }
 
@@ -54,11 +62,11 @@ struct row_col next(int i,int j)
 	return T;
 }
 
-bool isSafe(const int i,const int j,int k)
+bool isSafe(const int i,const int j)
 {
 	int count[10];
+
 	//Check for row
-	
 	memset(count,0,sizeof(count));
 	for(int m=0;m<9;m++)
 	{
@@ -66,7 +74,7 @@ bool isSafe(const int i,const int j,int k)
 		if(count[Sudoku[i][m]]>1 && Sudoku[i][m]!=0)
 			return false;
 	}
-
+	
 	//Check for columm
 	memset(count,0,sizeof(count));
 	for(int m=0;m<9;m++)
@@ -77,14 +85,14 @@ bool isSafe(const int i,const int j,int k)
 	}
 
 	//Check for 3*3 Square
-	int m=i/3;
-	int n=j/3;
 	memset(count,0,sizeof(count));
-	for(;m<i/3+3;m++)
-		for(;n<j/3+3;n++)
+	int x=(i/3)*3;
+	int y=(j/3)*3;
+	for(int m=0;m<3;m++)
+		for(int n=0;n<3;n++)
 		{
-			count[Sudoku[m][n]]++;
-			if(count[Sudoku[m][n]]>1 && Sudoku[m][n]!=0)
+			count[Sudoku[m+x][n+y]]++;
+			if(count[Sudoku[m+x][n+y]]>1 && Sudoku[m+x][n+y]!=0)
 				return false;
 		}
 
@@ -101,7 +109,7 @@ bool Solve_sudoku(const struct row_col T)
 	while(k<=9)
 	{
 		Sudoku[T.i][T.j]=k;
-		if(isSafe(T.i,T.j,k))
+		if(isSafe(T.i,T.j))
 			if(Solve_sudoku(next(T.i,T.j)))
 				return true;
 		Sudoku[T.i][T.j]=0;
