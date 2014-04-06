@@ -19,8 +19,8 @@ int rank_vertices[100];
 int find_set(int u)
 {
     if(u!=set_vertices[u])
-        u=find_set(set_vertices[u]);
-    return u;
+        set_vertices[u]=find_set(set_vertices[u]);
+    return set_vertices[u];
 }
 
 void union_set(int u,int v)
