@@ -1,5 +1,5 @@
-#include<iostream>
-#include<iomanip>
+#include <iostream>
+#include <iomanip>
 #define BLACK 1
 #define RED 2
 
