@@ -1,0 +1,12 @@
+ColorGraph(G(V,E),ColoredVertices,ColorSet)
+{
+    S=V-ColoredVertices
+    if(S={})
+        return true
+    u in S
+    for color in ColorSet
+        u.color=color
+        if ColorGraph(G(V,E),ColoredVertices U {u},ColorSet)
+            return true
+    return false
+}
