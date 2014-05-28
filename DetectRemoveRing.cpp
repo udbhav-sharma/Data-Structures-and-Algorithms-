@@ -41,10 +41,10 @@ Node* getPointer(Node* L,int key)
 	return L;
 }
 
-bool detectRing(Node* L)
+Node* detectRing(Node* L)
 {
 	if(L==NULL)
-		return false;
+		return NULL;
 	Node* First=L;
 	Node* Second=L;
 	do
@@ -57,9 +57,35 @@ bool detectRing(Node* L)
 	}
 	while(First!=NULL && Second!=NULL && First!=Second);
 	if(First==NULL || Second==NULL)
-		return false;
-	cout<<Second->key<<endl;
-	return true;
+		return NULL;
+	return Second;
+}
+
+void removeRing(Node* List,Node* K)
+{
+	Node* p1=K;
+	Node* p2=K;
+	int count=1;
+	while(p1->next!=p2)
+	{
+		count++;
+		p1=p1->next;
+	}
+
+	p1=List;
+	p2=List;
+	for(int i=0;i<count;i++)
+		p2=p2->next;
+
+	while(p1!=p2)
+	{
+		p1=p1->next;
+		p2=p2->next;
+	}
+
+	while(p2->next!=p1)
+		p2=p2->next;
+	p2->next=NULL;
 }
 
 void print(Node* L)
@@ -77,7 +103,7 @@ void print(Node* L)
 int main()
 {
 	int N;
-	Node* List;
+	Node* List=NULL;
 	cout<<"Input:\n";
 	cin>>N;
 	while(N!=-1)
@@ -89,6 +115,13 @@ int main()
 	cin>>N;
 	print(List);
 	FormCycle(List,getPointer(List,N));
-	detectRing(List)? cout<<"Ring\n":cout<<"No Ring\n";
+	Node* K;
+	(K=detectRing(List))!=NULL? cout<<"Ring\n":cout<<"No Ring\n";
+	
+	if(K!=NULL)
+	{
+		removeRing(List,K);
+		print(List);
+	}
 	return 0;
 }
