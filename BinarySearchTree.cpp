@@ -121,10 +121,10 @@ int main()
     Node *tree=NULL;
     int t;
     scanf("%d",&t);
-    while(t!=0)
+    while(t!=-1)
     {
-        scanf("%d",&t);
         Create(tree,t);
+        scanf("%d",&t);
     }
     printf("Inorder:\t");
     Inorder(tree);
