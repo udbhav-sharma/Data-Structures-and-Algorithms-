@@ -70,6 +70,8 @@ void Successor(Node* T)
     else
     {
         T=T->right;
+        if(T==NULL)
+            return NULL;
         while(T->left!=NULL)
             T=T->left;
         PrintKey(T);
