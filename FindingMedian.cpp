@@ -5,13 +5,13 @@
 
 using namespace std;
 
-struct compare  
- {  
-   bool operator()(const int& l, const int& r)  
-   {  
-       return l > r;  
-   }  
- };  
+struct compare
+ {
+   bool operator()(const int& l, const int& r)
+   {
+       return l > r;
+   }
+ };
 
 double Median=infinity;
 
@@ -33,7 +33,7 @@ int main()
 		{
 			if(left.size()<=right.size())
 				left.push(n);
-			else 
+			else
 				right.push(n);
 		}
 		if(((int)left.size())-((int)right.size())>1)
@@ -41,7 +41,7 @@ int main()
 			right.push(left.top());
 			left.pop();
 		}
-		else if(((int)left.size())-((int)right.size())>1)
+		else if(((int)right.size())-((int)left.size())>1)
 		{
 			left.push(right.top());
 			right.pop();
