@@ -1,4 +1,6 @@
-#include<iostream>
+#include <time.h>
+#include <stdlib.h>
+#include <iostream>
 
 using namespace std;
 
@@ -9,41 +11,17 @@ int Partition(int A[],int p,int r)
     int j;
 
     for(j=p;j<r;j++)
-    {
         if(A[j]<=x)
-        {
-            ++i;
-            swap(A[i],A[j]);
-        }
-    }
+            swap(A[++i],A[j]);
     swap(A[++i],A[r]);
     return i;
 }
 
-int Hoare_Partition(int A[],int p,int r)
+int Random_partition(int A[],int i,int j)
 {
-    int i=p-1;
-    int j=r+1;
-    int x=A[p];
-
-    while(true)
-    {
-        do
-            j--;
-        while(j>p && A[j]>=x);
-
-        do
-            i++;
-        while(i<r && A[i]<=x);
-
-        if(i<j)
-            swap(A[i],A[j]);
-        else
-        {
-            swap(A[j],A[p]);
-            return j;
-        }
-    }
+	int k=(rand()%(j-i+1))+i;
+	swap(A[j],A[k]);
+	return Partition(A,i,j);
 }
 
 void QuickSort(int A[],int p,int r)
@@ -51,7 +29,7 @@ void QuickSort(int A[],int p,int r)
     int q;
     if(p<r)
     {
-        q=Hoare_Partition(A,p,r);
+        q=Random_partition(A,p,r);
         QuickSort(A,p,q-1);
         QuickSort(A,q+1,r);
     }
@@ -59,6 +37,7 @@ void QuickSort(int A[],int p,int r)
 
 int main()
 {
+    srand (time(NULL));
     int T,N,i;
     int A[100];
 
