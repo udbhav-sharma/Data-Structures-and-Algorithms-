@@ -12,20 +12,15 @@ int parition(int i,int j)
 {
 	int m=i-1;
 	for(int k=i;k<j;k++)
-	{
-		if(Numbers[k]<Numbers[j])
-		{
-			m++;
-			swap(Numbers[m],Numbers[k]);
-		}
-	}
-	swap(Numbers[m+1],Numbers[j]);
-	return m+1;
+        if(Numbers[k]<Numbers[j])
+			swap(Numbers[++m],Numbers[k]);
+	swap(Numbers[++m],Numbers[j]);
+	return m;
 }
 
 int Random_partition(int i,int j)
 {
-	int k=(rand()%(j-i))+i;
+	int k=(rand()%(j-i+1))+i;
 	swap(Numbers[j],Numbers[k]);
 	return parition(i,j);
 }
