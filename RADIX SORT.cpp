@@ -8,10 +8,10 @@ void RADIX_SORT(int A[],int N,int d)
 {
     int i,j,k;
     queue<int> container[10];
-    for(i=1;i<=d;i++)
+    for(i=0;i<d;i++)
     {
         for(j=0;j<N;j++)
-            container[((A[j]/(int)pow(10,i-1))%10)].push(A[j]);
+            container[((A[j]/(int)pow(10,i))%10)].push(A[j]);
         for(j=0,k=0;j<10;j++)
         {
             while(!container[j].empty())
