@@ -8,51 +8,53 @@ class Node
     bool rightthread;
     Node* left;
     Node* right;
+    Node* parent;
     Node()
     {
         rightthread=true;
-        left=false;
-        right=false;
+        left=NULL;
+        right=NULL;
+        parent=NULL;
     }
 };
 
-void Insert(Node* &T,int key,Node* successor,bool rightthread)
+void Insert(Node* &T,int key,Node* parent,Node* successor,bool rightthread)
 {
     if(T==NULL || rightthread)
     {
         T=new Node();
         T->key=key;
         T->right=successor;
+        T->parent=parent;
     }
     else if(T->key>key)
-        Insert(T->left,key,T,false);
+        Insert(T->left,key,T,T,false);
     else if(T->key<key)
     {
-        Insert(T->right,key,T->right,T->rightthread);
+        Insert(T->right,key,T,T->right,T->rightthread);
         T->rightthread=false;
     }
 }
 
-Node* Search(Node* T,int key)
+Node* Search(Node* T,int key,bool rightthread)
 {
-    if(T==NULL)
+    if(T==NULL || rightthread)
         return NULL;
     else if(T->key==key)
         return T;
     else if(T->key>key)
-        return Search(T->left,key);
+        return Search(T->left,key,false);
     else
-        return Search(T->right,key);
+        return Search(T->right,key,T->rightthread);
 }
 
-void PrintTree(Node* T)
+void PrintTree(Node* T,bool rightthread)
 {
-    if(T==NULL)
+    if(T==NULL || rightthread)
         return;
-    PrintTree(T->left);
+    PrintTree(T->left,false);
     cout<<T->key<<", ";
-    if(!T->rightthread)
-        PrintTree(T->right);
+    PrintTree(T->right,T->rightthread);
 }
 
 void PrintKey(Node* T)
@@ -63,18 +65,24 @@ void PrintKey(Node* T)
         cout<<T->key<<endl;
 }
 
-void Successor(Node* T)
+Node* Tree_Minimum(Node* T)
+{
+    while(T->left!=NULL)
+        T=T->left;
+    return T;
+}
+
+Node* Successor(Node* T)
 {
     if(T->rightthread)
-        PrintKey(T->right);
+        return(T->right);
     else
     {
-        T=T->right;
-        if(T==NULL)
-            return NULL;
-        while(T->left!=NULL)
-            T=T->left;
-        PrintKey(T);
+        if(T->right!=NULL)
+            return(Tree_Minimum(T->right));
+        while(T->parent!=NULL && T->parent->right==T)
+            T=T->parent;
+        return(T->parent);
     }
 }
 
@@ -85,20 +93,20 @@ int main()
     cin>>n;
     while(n!=-1)
     {
-        Insert(Tree,n,NULL,false);
+        Insert(Tree,n,NULL,NULL,false);
         cin>>n;
     }
     cout<<"--------------Tree-------------\n";
-    PrintTree(Tree);
+    PrintTree(Tree,false);
     cout<<endl;
 
     Node* T;
     cin>>n;
     while(n!=-1)
     {
-        T=Search(Tree,n);
+        T=Search(Tree,n,false);
         if(T!=NULL)
-            Successor(T);
+            PrintKey(Successor(T));
         else
             PrintKey(T);
         cin>>n;
