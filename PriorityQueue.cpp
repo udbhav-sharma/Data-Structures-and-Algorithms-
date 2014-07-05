@@ -35,8 +35,8 @@ int Maximum()
 void MaxHeapify(int i)
 {
     int largest,left,right;
-    left=2*i+1;
-    right=2*i+2;
+    left=2*i;
+    right=2*i+1;
     if(left<size && temp[left]>temp[i])
         largest=left;
     else
@@ -61,13 +61,13 @@ int ExtractMaximum()
 int main()
 {
     int t;
-    scanf("%d",&t);
-    while(t!=0)
+    cin>>t;
+    while(t!=-1)
     {
-        scanf("%d",&t);
         Insert(t);
+        cin>>t;
     }
-    for(t=0;t<size;t++)
+    for(t=1;t<=size;t++)
         printf("%d ",temp[t]);
     printf("\n");
     return 0;

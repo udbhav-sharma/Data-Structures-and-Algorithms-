@@ -1,4 +1,4 @@
-#include <time.h> 
+#include <time.h>
 #include <iostream>
 #include <stdlib.h>
 
@@ -39,7 +39,7 @@ int FindElement(int i,int j,int k)
 		return Numbers[q];
 	if(k<q)
 		return FindElement(i,q-1,k);
-	else 
+	else
 		return FindElement(q+1,j,k);
 }
 
