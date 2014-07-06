@@ -1,12 +1,24 @@
-#include<iostream>
-#include<stdio.h>
-#include<stack>
+#include <iostream>
+#include <stdio.h>
+#include <stack>
 
 using namespace std;
 
-struct Vertex
+#define WHITE 0
+#define RED 1
+#define BLACK 2
+
+class Vertex
 {
+public:
     int color,d,f,parent;
+    Vertex()
+    {
+        color=WHITE;
+        d=0;
+        f=0;
+        parent=-1;
+    }
 };
 
 int Graph[100][100];
@@ -16,43 +28,30 @@ int time=0;
 
 void DFS_VISIT(int N,int i)
 {
-    int j;
+    vertices[i].color=RED;
+    vertices[i].d=++time;
 
-    time++;
-    vertices[i].color=1;
-    vertices[i].d=time;
-
-    for(j=0;j<N;j++)
-        if(Graph[i][j]!=0 && Graph[i][j]!=-1 && vertices[j].color==0)
+    for(int j=0;j<N;j++)
+        if(Graph[i][j]!=0 && Graph[i][j]!=-1 && vertices[j].color==WHITE)
         {
             vertices[j].parent=i;
             DFS_VISIT(N,j);
         }
 
-    time++;
-    vertices[i].color=2;
-    vertices[i].f=time;
+    vertices[i].color=BLACK;
+    vertices[i].f=++time;
     S.push(i);
 }
 
 void DFS(int N,int i)
 {
-    int j;
-    for(j=0;j<N;j++)
-    {
-        vertices[j].color=0;
-        vertices[j].d=-1;
-        vertices[j].f=-1;
-        vertices[j].parent=-1;
-    }
-    for(j=0;j<N;j++)
-        if(vertices[j].color==0)
+    for(int j=0;j<N;j++)
+        if(vertices[j].color==WHITE)
             DFS_VISIT(N,j);
 }
 
-void printTopological_sort(int N)
+void PrintTopologicalSort(int N)
 {
-    int i;
     while(!S.empty())
     {
         printf("%d\n",S.top()+1);
@@ -62,20 +61,21 @@ void printTopological_sort(int N)
 
 int main()
 {
-    int N,i,j;
+    int N;
     printf("Enter the number of vertices\n");
     scanf("%d",&N);
 
-    for(i=0;i<N;i++)
-        for(j=0;j<N;j++)
+    for(int i=0;i<N;i++)
+        for(int j=0;j<N;j++)
             scanf("%d",&Graph[i][j]);
 
     DFS(N,0);
-    printTopological_sort(N);
+    PrintTopologicalSort(N);
 
     return 0;
 }
 /*
+9
 0 1 -1 -1 1 -1 -1 -1 -1
 -1 0 1 -1 1 -1 -1 -1 -1
 -1 -1 0 -1 -1 -1 -1 -1 1
