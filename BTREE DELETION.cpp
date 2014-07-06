@@ -1,5 +1,5 @@
-#include<iostream>
-#include<iomanip>
+#include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -223,7 +223,9 @@ void DELETE(Node* T,int n)
                 break;
         }
 
-        if(T->child[i]->size<degree)
+        DELETE(T->child[i],n);
+
+        if(T->child[i]!=NULL && T->child[i]->size<degree)
         {
             if(i>0 && T->child[i-1]->size>=degree)
             {
@@ -273,9 +275,19 @@ void DELETE(Node* T,int n)
                 Merge(T,i);
             }
         }
-
-        DELETE(T->child[i],n);
     }
+}
+
+void PrintTree()
+{
+    cout<<"-------------------------------Tree---------------------------------\n";
+    int height=Height(Btree);
+    for(int n=height;n>=0;n--)
+    {
+        PRINT(Btree,height,n);
+        cout<<endl;
+    }
+
 }
 
 int main()
@@ -298,28 +310,15 @@ int main()
     while(n!=-1)
     {
         INSERT(n);
+        PrintTree();
         cin>>n;
-    }
-
-    height=Height(Btree);
-    for(n=height;n>=0;n--)
-    {
-        PRINT(Btree,height,n);
-        cout<<endl;
     }
 
     cin>>n;
     while(n!=-1)
     {
         DELETE(Btree,n);
-
-        height=Height(Btree);
-        for(n=height;n>=0;n--)
-        {
-            PRINT(Btree,height,n);
-            cout<<endl;
-        }
-
+        PrintTree();
         cin>>n;
     }
 

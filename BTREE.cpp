@@ -22,6 +22,10 @@ class Node
         for(int i=0;i<2*degree;i++)
             child[i]=NULL;
     }
+    bool IsFull()
+    {
+        return (size==(2*degree-1));
+    }
 };
 
 Node *Btree=NULL;
@@ -79,7 +83,7 @@ void INSERT_INTO_CHILD(Node* T,int n)
         while(i>=0 && n<T->key[i])
             i--;
         i++;
-        if(T->child[i]->size==2*degree-1)
+        if(T->child[i]->IsFull())
         {
             SPLIT_CHILD(T,i);
             if(n>T->key[i])
@@ -91,7 +95,7 @@ void INSERT_INTO_CHILD(Node* T,int n)
 
 void INSERT(int n)
 {
-    if(Btree->size==2*degree-1)
+    if(Btree->IsFull())
     {
         Node* r=Btree;
         Btree=new Node();
@@ -141,7 +145,7 @@ int main()
 
     CREATE(n);
 
-    cout<<"Enter the values. For ending please enter 0\n";
+    cout<<"Enter the values. For ending please enter -1\n";
     cin>>n;
     while(n!=-1)
     {
