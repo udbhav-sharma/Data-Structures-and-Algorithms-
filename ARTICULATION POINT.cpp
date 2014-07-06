@@ -1,4 +1,4 @@
-#include<iostream>
+#include <iostream>
 #define WHITE 0
 #define GREY 1
 #define BLACK 2
