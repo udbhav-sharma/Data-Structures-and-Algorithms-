@@ -1,12 +1,24 @@
-#include<iostream>
-#include<stdio.h>
-#include<queue>
+//For connected graph
+#include <iostream>
+#include <stdio.h>
+#include <queue>
 
 using namespace std;
+
+#define WHITE 0
+#define RED 1
+#define BLACK 2
 
 struct Vertex
 {
     int color,d,f,parent;
+    Vertex()
+    {
+        color=WHITE;
+        d=0;
+        f=0;
+        parent=-1;
+    }
 };
 
 int Graph[100][100];
@@ -15,26 +27,18 @@ queue<int> Q;
 
 void BFS(int N,int i)
 {
-    int j;
-    for(j=0;j<N;j++)
-    {
-        vertices[j].color=0;
-        vertices[j].d=-1;
-        vertices[j].parent=-1;
-    }
-    vertices[i].color=1;
+    vertices[i].color=RED;
     Q.push(i);
     while(!Q.empty())
     {
         i=Q.front();
-        vertices[i].color=2;
         Q.pop();
+        vertices[i].color=BLACK;
 
-        for(j=0;j<N;j++)
-            if(Graph[i][j]!=0 && vertices[j].color==0)
+        for(int j=0;j<N;j++)
+            if(Graph[i][j]!=0 && Graph[i][j]!=-1 && vertices[j].color==WHITE)
             {
                 Q.push(j);
-                vertices[j].color=1;
                 vertices[j].parent=i;
             }
     }
@@ -42,9 +46,9 @@ void BFS(int N,int i)
 
 void printBFS(int N)
 {
-    int i;
-    for(i=0;i<N;i++)
-        printf("%d %d\n",i,vertices[i].parent);
+	cout<<"Vertex\tParent\n";
+    for(int i=0;i<N;i++)
+        printf("%d\t%d\n",i,vertices[i].parent);
 }
 
 int main()
@@ -62,3 +66,11 @@ int main()
 
     return 0;
 }
+/*
+5
+0 1 -1 -1 -1
+-1 0 -1 1 1
+-1 -1 0 -1 -1
+-1 -1 -1 0 -1
+-1 -1 1 -1 0
+*/
