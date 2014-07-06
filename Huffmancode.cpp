@@ -1,26 +1,76 @@
-#include<iostream>
-#include<cstring>
-#include<queue>
+#include <queue>
+#include <cstring>
+#include <iostream>
 
 using namespace std;
 
 class Node
 {
-    public:
 
+private:
     int key;
     int frequency;
-    Node *left,*right;
+    Node *left;
+    Node *right;
+
+    void Initialize()
+    {
+        this->key=-1;
+        this->frequency=0;
+        this->left=NULL;
+        this->right=NULL;
+    }
+
+public:
     Node()
     {
-        key=-1;
-        frequency=0;
-        left=NULL;
-        right=NULL;
+        Initialize();
     }
+
+    Node(int key, int frequency)
+    {
+        Initialize();
+        this->key=key;
+        this->frequency=frequency;
+    }
+
+    Node(int frequency, Node* left, Node* right)
+    {
+        Initialize();
+        this->frequency=frequency;
+        this->left=left;
+        this->right=right;
+    }
+
     bool operator <(const Node& that)const
     {
         return this->frequency>that.frequency;
+    }
+
+    bool IsLeaf()
+    {
+        if(this->key!=-1) return true;
+        return false;
+    }
+
+    int GetKey()
+    {
+        return this->key;
+    }
+
+    int GetFrequency()
+    {
+        return this->frequency;
+    }
+
+    Node* GetLeftChild()
+    {
+        return this->left;
+    }
+
+    Node* GetRightChild()
+    {
+        return this->right;
     }
 };
 
@@ -29,95 +79,80 @@ Node* HuffmanTree=new Node();
 
 //Creating a Huffman Code Tree
 
-void Huffman_Code_Tree(string s)
+void GenerateTree(string s)
 {
-    int i,n=s.length();
+    int i;
     int alphabet[26];
-    Node *temp1,*temp2,*temp3;
+    Node *ptr1,*ptr2,*ptr3;
 
     memset(alphabet,0,sizeof(alphabet));
 
-    for(i=0;i<n;i++)
+    for(i=0;i<s.length();i++)
         alphabet[s[i]-'a']++;
 
     for(i=0;i<26;i++)
-    {
-        if(alphabet[i]>0)
+        if(alphabet[i])
         {
-            temp1=new Node();
-            temp1->frequency=alphabet[i];
-            temp1->key=i+'a';
-            Q.push(*temp1);
+            ptr1=new Node((i+'a'), alphabet[i]);
+            Q.push(*ptr1);
         }
-    }
 
-    n=Q.size();
-    for(i=1;i<n;i++)
+    while( Q.size()>1 )
     {
-        temp1=new Node();
-        temp2=new Node();
+        ptr1=new Node();
+        ptr2=new Node();
 
-        *temp1=Q.top();
+        *ptr1=Q.top();
         Q.pop();
-        *temp2=Q.top();
+        *ptr2=Q.top();
         Q.pop();
 
-        temp3=new Node();
-        temp3->frequency=temp1->frequency+temp2->frequency;
-        temp3->left=temp1;
-        temp3->right=temp2;
-        Q.push(*temp3);
+        ptr3=new Node( (ptr1->GetFrequency()+ptr2->GetFrequency()), ptr1, ptr2);
+        Q.push(*ptr3);
     }
     *HuffmanTree=Q.top();
     Q.pop();
 
 }
 
-void Print_Tree(Node* T)
+void PrintTree(Node* T)
 {
     if(T!=NULL)
     {
-        Print_Tree(T->left);
-        if(T->key!=-1)
-            cout<<(char)T->key<<" ";
-        cout<<T->frequency<<endl;
-        Print_Tree(T->right);
+        PrintTree(T->GetLeftChild());
+        if(T->IsLeaf())
+            cout<<(char)T->GetKey()<<"\t";
+        cout<<T->GetFrequency()<<endl;
+        PrintTree(T->GetRightChild());
     }
 }
 
-//Generate HuffmanCode for a given string
-
 bool HuffmanCode(Node* T,int key,string& Code)
 {
-    if(T->left!=NULL)
+    if(!T->IsLeaf())
     {
-        if(HuffmanCode(T->left,key,Code))
+        if(HuffmanCode(T->GetLeftChild(),key,Code))
         {
             Code="0"+Code;
             return true;
         }
-        else if(HuffmanCode(T->right,key,Code))
+        else if(HuffmanCode(T->GetRightChild(),key,Code))
         {
             Code="1"+Code;
             return true;
         }
         return false;
     }
-    else
-    {
-        if(T->key==key)
-            return true;
-        else
-            return false;
-    }
+    if(T->GetKey()==key) return true;
+    return false;
 }
 
 string GenerateCode(string s)
 {
-    int i,n=s.length();
+    int i;
     string Code="";
     string temp_code;
-    for(i=0;i<n;i++)
+    for(i=0;i<s.length();i++)
     {
         temp_code="";
         HuffmanCode(HuffmanTree,s[i],temp_code);
@@ -126,29 +161,27 @@ string GenerateCode(string s)
     return Code;
 }
 
-//Decode Huffman Code
-
 string Decode(string s)
 {
     string Decoded="";
     Node* T=HuffmanTree;
-    int i,n=s.length();
+    int i;
 
-    for(i=0;i<=n;)
+    for(i=0;i<=s.length();)
     {
-        if(T->key!=-1)
+        if(T->IsLeaf())
         {
-            Decoded+=(char)T->key;
+            Decoded+=(char)T->GetKey();
             T=HuffmanTree;
         }
         else if(s[i]=='0')
         {
-            T=T->left;
+            T=T->GetLeftChild();
             i++;
         }
         else
         {
-            T=T->right;
+            T=T->GetRightChild();
             i++;
         }
     }
@@ -158,11 +191,12 @@ string Decode(string s)
 int main()
 {
     string s;
+    cout<<"Input String:\t";
     cin>>s;
 
-    Huffman_Code_Tree(s);
+    GenerateTree(s);
 
-    Print_Tree(HuffmanTree);
+    PrintTree(HuffmanTree);
 
     s=GenerateCode(s);
 
