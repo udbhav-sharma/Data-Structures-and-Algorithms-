@@ -1,5 +1,7 @@
-#include<iostream>
+#include <iostream>
+
 #define infinity 10000007
+
 using namespace std;
 
 struct Edge
