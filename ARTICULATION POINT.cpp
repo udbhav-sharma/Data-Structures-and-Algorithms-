@@ -1,6 +1,7 @@
 #include <iostream>
+
 #define WHITE 0
-#define GREY 1
+#define RED 1
 #define BLACK 2
 
 using namespace std;
@@ -9,13 +10,14 @@ int Edges[100][100];
 int Edge_index[100];
 int time=0;
 
-struct vertex
+class Vertex
 {
+public:
     int d,f;
     int low;
     int color;
     int parent;
-    vertex()
+    Vertex()
     {
         color=WHITE;
         f=-1;
@@ -23,12 +25,12 @@ struct vertex
     }
 };
 
-vertex Vertices[100];
+Vertex Vertices[100];
 
 void DFS(int i,int N)
 {
-    Vertices[i].color=GREY;
-    Vertices[i].d=time++;
+    Vertices[i].color=RED;
+    Vertices[i].d=++time;
     Vertices[i].low=Vertices[i].d;
 
     for(;Edge_index[i]<N;Edge_index[i]++)
@@ -41,11 +43,8 @@ void DFS(int i,int N)
                 DFS(Edge_index[i],N);
                 Vertices[i].low=min(Vertices[i].low,Vertices[Edge_index[i]].low);
             }
-
-            else if(Vertices[i].d>Vertices[Edge_index[i]].d && Vertices[Edge_index[i]].color==GREY)
-            {
+            else if(Vertices[Edge_index[i]].color==RED)
                 Vertices[i].low=min(Vertices[i].low,Vertices[Edge_index[i]].d);
-            }
         }
     }
 
@@ -67,9 +66,8 @@ void DFS(int i,int N)
                 break;
             }
     }
-
-    Vertices[i].color=BLACK;
-    Vertices[i].f=time++;
+	Vertices[i].color=BLACK;
+    Vertices[i].f=++time;
 }
 
 int main()
