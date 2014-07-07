@@ -1,5 +1,6 @@
-#include<iostream>
-#include<stdio.h>
+#include <iostream>
+#include <stdio.h>
+
 #define infinity 1<<30
 
 using namespace std;
