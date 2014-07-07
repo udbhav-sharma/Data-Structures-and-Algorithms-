@@ -1,5 +1,5 @@
 ColorGraph(G(V,E),ColoredVertices,ColorSet)
-	if IsColored(G(V,E),ColoreVertices)
+	if IsColored(G(V,E),ColoredVertices)
     	S=V-ColoredVertices
     	if(S={})
         	return true
