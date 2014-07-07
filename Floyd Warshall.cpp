@@ -1,5 +1,6 @@
-#include<iostream>
-#define infinity 1000000
+#include <iostream>
+
+#define infinity 1000007
 
 using namespace std;
 
