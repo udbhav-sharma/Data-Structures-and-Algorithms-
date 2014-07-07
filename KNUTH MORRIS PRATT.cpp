@@ -1,8 +1,9 @@
-#include<iostream>
+#include <string>
+#include <iostream>
 
 using namespace std;
 
-void COMPUTE_PREFIX_FUNCTION(char P[],int M,int pie[])
+void COMPUTE_PREFIX_FUNCTION(string P,int M,int* pie)
 {
     pie[0]=-1;
     int k=-1,q;
@@ -17,7 +18,7 @@ void COMPUTE_PREFIX_FUNCTION(char P[],int M,int pie[])
     }
 }
 
-void KMP_MATCHER(char P[],int M,char Q[],int N)
+void KMP_MATCHER(string P,int M,string Q,int N)
 {
     int pie[M],i,q=-1;
 
@@ -36,13 +37,9 @@ void KMP_MATCHER(char P[],int M,char Q[],int N)
 
 int main()
 {
-    int M,N;
-    char P[100],Q[100];
-
-    cin>>M>>P;
-    cin>>N>>Q;
-
-    KMP_MATCHER(P,M,Q,N);
-
+    string P,Q;
+    cin>>P>>Q;
+    
+    KMP_MATCHER(P,P.length(),Q,Q.length());
     return 0;
 }
