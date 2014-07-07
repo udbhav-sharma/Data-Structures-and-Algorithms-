@@ -1,9 +1,11 @@
-Printpath (G(V,E),v,Path)
+PrintHamiltonianCycle (G(V,E),v,Path,vfirst)
     if V-Path={}
-       Print Path
-       return true
+    	if (v,vfirst) in E
+       		Print Path
+       		return true
+       	return false
     for all u in V-Path
-       if (v,u) in E
-          if Printpath(G(V,E),u,Path U {u})
-             return true
+       	if (v,u) in E
+          	if PrintHamiltonianCycle(G(V,E),u,Path U {u},vfirst)
+            	return true
     return false

@@ -1,0 +1,9 @@
+Printpath (G(V,E),v,Path)
+    if V-Path={}
+       Print Path
+       return true
+    for all u in V-Path
+       if (v,u) in E
+          if Printpath(G(V,E),u,Path U {u})
+             return true
+    return false
