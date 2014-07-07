@@ -1,7 +1,9 @@
 #include <iostream>
+
 #define infinity 1000007
 #define MAXN 100
 #define MAXK 10000
+
 using namespace std;
 
 int E[MAXK][MAXN];
