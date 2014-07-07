@@ -1,8 +1,10 @@
-#include<iostream>
-#include<stack>
+#include <stack>
+#include <iostream>
+
 #define WHITE 0
 #define GREY 1
 #define BLACK 2
+
 #define infinity 1000007
 
 using namespace std;
