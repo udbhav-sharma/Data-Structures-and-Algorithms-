@@ -1,7 +1,7 @@
-#include<iostream>
+#include <iostream>
 #define infinity 1000007
 #define WHITE 0
-#define GREY 1
+#define RED 1
 #define BLACK 2
 
 using namespace std;
