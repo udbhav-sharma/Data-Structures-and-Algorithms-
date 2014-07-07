@@ -1,11 +1,18 @@
-#include<iostream>
+#include <iostream>
 #define infinity 1<<30
 
 using namespace std;
 
-struct Vertex
+class Vertex
 {
+public:
     int parent,d,color;
+    Vertex()
+    {
+        d=infinity;
+        color=0;
+        parent=-1;
+    }
 };
 
 int Graph[100][100];
@@ -24,13 +31,6 @@ void PRINT_PRIM()
 void PRIM()
 {
     int i,j,k,min_dist,min_vertex;
-
-    for(i=0;i<N;i++)
-    {
-        vertices[i].d=infinity;
-        vertices[i].color=0;
-        vertices[i].parent=-1;
-    }
 
     i=0;
     vertices[i].d=0;
