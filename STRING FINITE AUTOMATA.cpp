@@ -1,8 +1,13 @@
-#include<iostream>
+#include <string>
+#include <iostream>
+
+#define maxm 1000
 
 using namespace std;
 
-void COMPUTE_TRANSITION_FUNCTION(char P[],int M,int delta[][26])
+int delta[maxm+1][26];
+
+void COMPUTE_TRANSITION_FUNCTION(string P,int M)
 {
     int q,i,j,k;
     bool flag;
@@ -17,18 +22,15 @@ void COMPUTE_TRANSITION_FUNCTION(char P[],int M,int delta[][26])
             s1="";
             s2="";
 
-            for(j=0;j<q;j++)
-                s2+=P[j];
-            s2+=i+'a';
+            s2=P.substr(0,q);
+            s2=s2+((char)(i+'a'));
             s2_len=s2.length();
 
-            for(j=0;j<k;j++)
-                s1+=P[j];
+            s1=P.substr(0,k);
             s1_len=s1.length();
 
             while(true)
             {
-                s1_len--;
                 flag=true;
 
                 for(j=1;j<=s1_len;j++)
@@ -37,16 +39,16 @@ void COMPUTE_TRANSITION_FUNCTION(char P[],int M,int delta[][26])
 
                 if(flag || s1_len==0)
                     break;
+                s1_len--;
             }
             delta[q][i]=s1_len;
         }
     }
 }
 
-void  Finite_Automata_Matcher(char P[],int M,char Q[],int N)
+void  Finite_Automata_Matcher(string P,int M,string Q,int N)
 {
-    int delta[M+1][26];
-    COMPUTE_TRANSITION_FUNCTION(P,M,delta);
+    COMPUTE_TRANSITION_FUNCTION(P,M);
 
     int q=0;
     for(int i=0;i<N;i++)
@@ -57,21 +59,32 @@ void  Finite_Automata_Matcher(char P[],int M,char Q[],int N)
     }
 }
 
+void PrintDelta(int M)
+{
+    cout<<"State\t";
+    for(int i=0;i<26;i++)
+        cout<<(char)(i+'a')<<"\t";
+    cout<<endl;
+    for(int i=0;i<=M;i++)
+    {
+        cout<<i<<"\t";
+        for(int j=0;j<26;j++)
+            cout<<delta[i][j]<<"\t";
+        cout<<endl;
+    }
+}
+
 int main()
 {
-    int i,M,N;
-    char P[100],Q[100];
+    string P,Q;
 
-    cin>>M>>P;
-    cin>>N>>Q;
+    cin>>P>>Q;
 
-    Finite_Automata_Matcher(P,M,Q,N);
-
+    Finite_Automata_Matcher(P,P.length(),Q,Q.length());
+    //PrintDelta(P.length());
     return 0;
 }
 /*
-7
 ababaca
-11
 abababacaba
 */
