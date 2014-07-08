@@ -21,7 +21,7 @@ bool isBST(Node* T)
         if (!isBST(T->left))
           return false;
  
-        if (prev != NULL && T->key <= prev->key)
+        if (prev != NULL && T->key < prev->key)
           return false;
         prev = T;
 
