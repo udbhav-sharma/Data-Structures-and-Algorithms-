@@ -1,0 +1,35 @@
+http://www.geeksforgeeks.org/merge-two-bsts-with-limited-extra-space/
+
+mergeBST(Node* T1, Node* T2)
+	stack T1_stack,T2_stack
+	
+	T1_stack.push(infinity)
+	T2_stack.push(infinity)
+
+	insert(T1_stack,T1)
+	insert(T2_stack,T2)
+	
+	while(T1_stack.size()>1 || T2_stack.size()>1)
+		if T1.top().key<T2.top().key
+			x=T1.top();
+			print x->key
+			T1.pop();
+			insert(T1_stack,x->right)
+		else if T2.top().key<T1.top().key
+			x=T2.top();
+			print x->key
+			T2.pop();
+			insert(T2_stack,x->right)
+		else
+			x=T1.top();
+			x=T1.top();
+			print x->key
+			T1.pop()
+			insert(T1_stack,x->right)
+			T2.pop();
+			insert(T2_stack,x->right)
+
+insert(stack T_stack, Node* T)
+	while T!=NULL
+		T_stack.push(T);
+		T=T->left;

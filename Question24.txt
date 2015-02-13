@@ -1,0 +1,26 @@
+/**
+http://www.geeksforgeeks.org/fix-two-swapped-nodes-of-bst/
+*/
+
+fix(p,q)
+	swap(p.left,q.left)
+	swap(p.right,q.right)
+	swap(p,q)
+
+fixBST(Node* &T,int min,int max)
+	stack toBeFixedNodes;
+	if T.key<min or T.key>max
+		toBeFixedNodes.push(T);
+		
+		if toBeFixedNodes.size()==2
+			p=toBeFixedNodes.top();
+			toBeFixedNodes.pop();
+			q=toBeFixedNodes.top();
+			toBeFixedNodes.pop();
+			fix(p,q)
+			return;
+
+	fixBST(T.left,min,T.key)
+	fixBST(T.right,T.key,max)
+
+//p and q represents the original tree pointers
